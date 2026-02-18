@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God of server · NIKIYA</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+        }
+
+        body {
+            background: #0b0c10;
+            color: #cee6f2;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* matrix / glitch background effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 200, 0.02) 0px, rgba(0, 0, 0, 0.9) 4px, transparent 5px),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="10" y="20" fill="%2300f7b3" font-size="8">0x5F</text><text x="50" y="70" fill="%2300c8b0" font-size="9">root</text><text x="70" y="30" fill="%2300ffaa" font-size="7">#!</text></svg>');
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glass-panel {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            backdrop-filter: blur(2px);
+            background: rgba(10, 20, 20, 0.75);
+            border: 1px solid #1effbc;
+            box-shadow: 0 0 35px #1effbc33, inset 0 0 10px #0f3a33;
+            border-radius: 42px 12px 42px 12px;
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        /* header with glitch */
+        .glitch-wrapper {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px dashed #24ffb5;
+            padding-bottom: 0.8rem;
+        }
+
+        .glitch {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00fff9;
+            animation: glitch-shake 0.3s infinite alternate;
+            letter-spacing: 6px;
+            color: #e0fffa;
+        }
+
+        .glitch span {
+            color: #00ffb3;
+            font-size: 2rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px cyan);
+        }
+
+        @keyframes glitch-shake {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 1px); }
+            40% { transform: translate(3px, -1px); }
+            60% { transform: translate(-2px, 0); }
+            80% { transform: translate(2px, 1px); }
+            100% { transform: translate(0); }
+        }
+
+        .subhead {
+            font-size: 1.3rem;
+            color: #a5f0d1;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            background: #0b201cb3;
+            padding: 8px 20px;
+            border-radius: 40px;
+            margin-top: 10px;
+            border: 1px solid #21ffb5;
+        }
+
+        .subhead i {
+            color: #52ffbf;
+            margin-right: 6px;
+        }
+
+        .email-block {
+            font-size: 1.3rem;
+            background: #111e1b;
+            padding: 10px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 20px auto 15px;
+            border: 1px solid #1affb0;
+            word-break: break-all;
+            box-shadow: 0 0 15px #0affb0;
+        }
+
+        /* social & buttons grid */
+        .link-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin: 35px 0 25px;
+        }
+
+        .link-card {
+            background: #0e1d1ab3;
+            border: 1px solid #29f5bb;
+            border-radius: 30px 8px 30px 8px;
+            padding: 12px 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #f0fffa;
+            text-decoration: none;
+            backdrop-filter: blur(6px);
+            transition: 0.2s;
+            box-shadow: 0 0 12px #11ffad;
+            flex: 0 1 auto;
+        }
+
+        .link-card i {
+            font-size: 1.8rem;
+            color: #33ffbc;
+        }
+
+        .link-card:hover {
+            background: #1d3a33;
+            border-color: #fbff47;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 28px cyan;
+        }
+
+        /* about section */
+        .about-box {
+            background: #03100db3;
+            border-left: 8px solid #00ffe1;
+            padding: 20px 28px;
+            border-radius: 0 30px 0 30px;
+            margin: 35px 0 25px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            word-break: break-word;
+            text-shadow: 0 0 6px #0ff;
+            box-shadow: 0 0 30px #00ffbf40;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .about-box span {
+            color: #b9ffd7;
+            font-size: 2rem;
+        }
+
+        /* tools section */
+        .tools-title {
+            font-size: 2rem;
+            margin: 40px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 8px solid #31ffbb;
+            padding-left: 20px;
+            text-transform: uppercase;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-item {
+            background: #0f221eb0;
+            border: 2px solid #00f7b3;
+            border-radius: 20px 0 20px 0;
+            padding: 18px 15px;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .tool-item:hover {
+            border-color: #f2ff66;
+            background: #1f423a;
+            box-shadow: 0 0 28px #f2ff66;
+        }
+
+        .tool-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .tool-icon {
+            font-size: 2.6rem;
+            color: #19ffbf;
+            filter: drop-shadow(0 0 10px #00ffd0);
+        }
+
+        .tool-name {
+            background: #0000005e;
+            padding: 5px 15px;
+            border-radius: 50px;
+            width: fit-content;
+            border: 1px solid #77ffe1;
+        }
+
+        .dl-icon {
+            margin-top: 8px;
+            background: #1effbc;
+            color: black;
+            font-weight: bold;
+            padding: 5px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        /* login pass */
+        .login-creds {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: black;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 2px solid #39ffb5;
+            width: fit-content;
+            margin: 30px auto 0;
+            gap: 15px;
+        }
+
+        .login-creds span {
+            color: #c3ffe7;
+            font-size: 1.3rem;
+        }
+
+        .login-creds .pass {
+            background: #0c3026;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-family: monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fbffa3;
+            letter-spacing: 3px;
+            border: 1px solid cyan;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* responsive */
+        @media (max-width: 600px) {
+            .glitch { font-size: 2.4rem; }
+            .about-box { font-size: 1.3rem; }
+            .subhead { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <div class="glitch-wrapper">
+            <div class="glitch">
+                ᴅᴇᴀʀ ɢᴏᴅ ᴏꜰ ꜱᴇʀᴠᴇʀ <span>⚡</span>
+            </div>
+            <div class="subhead">
+                <span><i class="fas fa-shield-halos"></i> 𝐁͢ᴇꜱ͠ᴛ 𝐂ʏʙ͒͟͡ᴇʀ 𝐓ᴇᴇ̸͢ᴍ</span>
+                <span><i class="fas fa-skull"></i> 𝐀̶ɴ͠ᴅ 𝐆͢ᴏ̷͠͞ᴅ 𝐍ɪ͢ᴋ͠ᴄʏ</span>
+                <span><i class="fas fa-globe"></i> 𝐇ᴀ͠ᴋ͢͠ᴄ͠ɪɴ͠ɢ ͢❗⚖️🇱🇰</span>
+            </div>
+        </div>
+
+        <!-- email + contact -->
+        <div style="text-align: center;">
+            <div class="email-block">
+                <i class="fas fa-envelope" style="margin-right: 10px;"></i> hakarnikiya@gmail.com
+            </div>
+        </div>
+
+        <!-- primary links (telegram, youtube, tiktok) -->
+        <div class="link-grid">
+            <a href="https://www.youtube.com/@NIKIYA-MOD" target="_blank" class="link-card">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+            <a href="https://t.me/nikiyamod" target="_blank" class="link-card">
+                <i class="fab fa-telegram"></i> Telegram 1
+            </a>
+            <a href="https://t.me/nikcymod" target="_blank" class="link-card">
+                <i class="fab fa-telegram"></i> Telegram 2
+            </a>
+            <a href="https://tiktok.com/@nikcy.bbh0" target="_blank" class="link-card">
+                <i class="fab fa-tiktok"></i> TikTok
+            </a>
+        </div>
+
+        <!-- about text (exact given) -->
+        <div class="about-box">
+            <span>𝐁͢ᴇꜱ͠ᴛ 𝐂ʏʙ͒͟͡ᴇʀ 𝐓ᴇᴇ̸͢ᴍ 𝐀̶ɴ͠ᴅ 𝐆͢ᴏ̷͠͞ᴅ 𝐍ɪ͢ᴋ͠ᴄʏ 𝐇ᴀ͠ᴋ͢͠ᴄ͠ɪɴ͠ɢ ͢❗⚖️🇱🇰</span>
+        </div>
+
+        <!-- Hacking tools section -->
+        <div class="tools-title">
+            <i class="fas fa-download" style="color:#1effbc;"></i>  NIKIYA TOOLS ARMORY
+        </div>
+
+        <div class="tools-grid">
+            <!-- main hacking tools -->
+            <div class="tool-item">
+                <a href="https://www.mediafire.com/file/9fqxlc8qo17ytfm/HAKING_NIKIYA_TOOLS_1.0.apk/file" target="_blank">
+                    <i class="fas fa-skull-crossbones tool-icon"></i>
+                    <span class="tool-name">💀 HAKING NIKIYA TOOLS 1.0</span>
+                    <span class="dl-icon"><i class="fas fa-download"></i> mediafire</span>
+                </a>
+            </div>
+            <!-- whatsapp band unbad -->
+            <div class="tool-item">
+                <a href="https://www.mediafire.com/file/vcav4cw3fodmqg0/%25F0%259F%2594%25B0%25E2%2583%25A2%25E2%2583%25A2W%25E2%2583%259DH_BAND_MOD_CYBER_NIKI%25F0%259F%2587%25B1%25F0%259F%2587%25B0%25E2%2583%25A2%25F0%259F%2594%25B0_1.0.apk/file" target="_blank">
+                    <i class="fas fa-unlock-alt tool-icon"></i>
+                    <span class="tool-name">🔓 BAND / UNBAND MOD</span>
+                    <span class="dl-icon">CYBER NIKI 1.0</span>
+                </a>
+            </div>
+            <!-- auto call end -->
+            <div class="tool-item">
+                <a href="https://www.mediafire.com/file/7f3e9u8qkwuy8rx/AUTO_COLL_END_4.0.apk/file" target="_blank">
+                    <i class="fas fa-phone-slash tool-icon"></i>
+                    <span class="tool-name">⏱️ AUTO COLL END 4.0</span>
+                    <span class="dl-icon">DL v4.0</span>
+                </a>
+            </div>
+            <!-- whatsapp band tools -->
+            <div class="tool-item">
+                <a href="https://www.mediafire.com/file/biju6iouwfk7phz/Banido_WhatsApp_1.0.apk/file" target="_blank">
+                    <i class="fas fa-ban tool-icon"></i>
+                    <span class="tool-name">🚫 BANIDO WHATSAPP 1.0</span>
+                    <span class="dl-icon">BAN TOOL</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- login password (exact) -->
+        <div class="login-creds">
+            <span><i class="fas fa-lock"></i> login password</span>
+            <span class="pass">NIKIYA@WEB</span>
+        </div>
+
+        <!-- tiny footer: whatsapp channel repeated (already in tools but extra flair) -->
+        <div style="display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin-top: 40px;">
+            <span style="border:1px dashed #4affb0; padding: 8px 20px; border-radius: 60px;"><i class="fab fa-whatsapp"></i> wa.me + NIKIYA MOD</span>
+            <span style="border:1px dashed #4affb0; padding: 8px 20px; border-radius: 60px;"><i class="fas fa-terminal"></i> root@godserver:~#</span>
+        </div>
+
+        <!-- hidden note with all origin details -->
+        <div class="footer-note">
+            <i class="fas fa-crown" style="color: gold;"></i> God of server · NIKIYA CYBER TEAM ·  🇱🇰  <i class="fas fa-bolt" style="color: #1effbc;"></i>
+        </div>
+
+        <!-- tiny password reminder -->
+        <div style="text-align: right; margin-top: 10px; color: #1f8f78; font-size: 0.9rem;">
+            <i class="fas fa-key"></i> login: NIKIYA@WEB
+        </div>
+    </div>
+</body>
+</html>
