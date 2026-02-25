@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ God of Server · cyber lockdown</title>
-    <!-- Font Awesome Icons (v6 free) -->
+    <title>⚡ GOD OF SERVER • CYBER LOCKDOWN ⚡</title>
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -15,499 +15,534 @@
         }
 
         body {
-            background: #0a0f0e;
+            background: #0b0f1c;
             color: #00ffc3;
+            padding: 20px;
             min-height: 100vh;
-            padding: 1.2rem;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            overflow-x: hidden;
+            overflow-x: auto;
+            text-shadow: 0 0 5px #00ffc3;
         }
 
-        /* Matrix-like background animation (very subtle) */
+        /* matrix / glitch background effect */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, 
-                rgba(0,255,200,0.02) 0px, 
-                rgba(0,0,0,0.8) 2px, 
-                transparent 3px);
+            background: repeating-linear-gradient(0deg, rgba(0,255,0,0.03) 0px, rgba(0,0,0,0.5) 2px, transparent 3px);
             pointer-events: none;
             z-index: 0;
-            animation: scan 8s linear infinite;
         }
 
-        @keyframes scan {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 20px; }
-        }
-
-        /* main container */
-        .cyber-wrap {
+        .container {
             max-width: 1300px;
-            margin: 0 auto;
             width: 100%;
             position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            z-index: 2;
+            backdrop-filter: blur(1px);
         }
 
-        /* blinking cursor / glitch effect */
-        .glitch {
-            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-            animation: textflick 1.8s infinite;
-        }
-
-        @keyframes textflick {
-            0% { opacity: 1; text-shadow: 0 0 5px #0ff; }
-            92% { opacity: 1; text-shadow: 0 0 5px #0ff; }
-            93% { opacity: 0.3; text-shadow: -3px 0 #ff00b3; }
-            94% { opacity: 0.7; text-shadow: 3px 0 cyan; }
-            96% { opacity: 1; text-shadow: 0 0 5px #0ff; }
-        }
-
-        /* ascii art panel */
-        .header-panel, .status-panel, .core-panel, .downloads, .owner-area {
-            background: rgba(0, 20, 20, 0.75);
-            backdrop-filter: blur(2px);
-            border: 2px solid #00ccaa;
-            box-shadow: 0 0 15px #00ffc3, inset 0 0 10px rgba(0,255,200,0.2);
-            padding: 1.2rem 1rem;
-            border-radius: 0px;  /* sharp edges cyber */
-            color: #b5ffe9;
-            transition: 0.2s;
-        }
-
-        .header-panel {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            white-space: pre-wrap;
-            word-break: break-word;
-            border-top: 4px solid #ff00d0;
-            border-bottom: 4px solid cyan;
-        }
-
-        .status-panel {
+        /* header with name & contact */
+        .header {
+            border: 2px solid #00ffc3;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            background: #03050bb0;
+            box-shadow: 0 0 20px #00ffc366;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
         }
 
-        .contact-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-links a {
-            color: #ff77ff;
-            text-decoration: none;
-            border: 1px solid #0ff;
-            padding: 0.3rem 0.8rem;
-            background: #001010;
+        .god-name {
+            font-size: 2.8rem;
             font-weight: bold;
-            font-size: 1.1rem;
-            transition: 0.3s;
-            box-shadow: 0 0 10px cyan;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: flicker 3s infinite;
+        }
+        .god-name small {
+            font-size: 1rem;
+            color: #aaffdd;
+            display: block;
+            letter-spacing: 3px;
         }
 
-        .contact-links a:hover {
-            background: cyan;
-            color: black;
-            border-color: magenta;
-            box-shadow: 0 0 25px magenta;
+        .contact-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 1.1rem;
+        }
+        .contact-row a {
+            color: #ffb86b;
+            text-decoration: none;
+            border: 1px dashed #ffb86b;
+            padding: 6px 12px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-row a:hover {
+            background: #ffb86b22;
+            border-style: solid;
+            text-shadow: 0 0 8px yellow;
             transform: scale(1.05);
         }
 
-        .live-threat {
-            background: #000c0b;
-            border-left: 6px solid red;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            animation: pulseRed 2s infinite;
+        /* main columns */
+        .main-panels {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        @keyframes pulseRed {
-            0% { border-left-color: red; text-shadow: 0 0 3px red; }
-            50% { border-left-color: #ff6600; text-shadow: 0 0 8px orange; }
-            100% { border-left-color: red; text-shadow: 0 0 3px red; }
+        .left-panel {
+            flex: 2;
+            min-width: 350px;
         }
 
-        /* Core engine panel */
-        .core-grid {
+        .right-panel {
+            flex: 1.2;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* terminal like blocks */
+        .terminal-block {
+            border: 1px solid #0f6;
+            background: #030a0fe0;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px #0f6 inset, 0 0 20px #00b8ff;
+            backdrop-filter: blur(2px);
+            position: relative;
+        }
+
+        .block-title {
+            color: #ffffb0;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #00ffaa;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .threat-line, .status-line {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 2;
+            border-left: 3px solid #ff5555;
+            padding-left: 15px;
+            margin: 8px 0;
+            background: linear-gradient(90deg, #00ff0a10, transparent);
+            animation: scanLine 1.5s infinite;
+        }
+        .status-line {
+            border-left-color: #0ff;
+            background: linear-gradient(90deg, #0ff10, transparent);
+        }
+
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0 0.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .core-item {
-            background: #021010;
-            padding: 0.5rem;
-            border: 1px solid #0ff;
+        .core-value {
+            background: #000c12;
+            padding: 12px;
+            border: 1px solid cyan;
+            font-weight: bold;
             display: flex;
             justify-content: space-between;
-            font-weight: 700;
-            box-shadow: 0 0 5px cyan;
         }
 
-        .lock {
-            color: #ff44ee;
-            filter: drop-shadow(0 0 5px magenta);
+        .critical {
+            color: #ff6565;
+            text-shadow: 0 0 5px red;
+            animation: blinkWarning 1s infinite;
         }
 
-        /* downloads area */
-        .downloads-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 0.8rem;
+        .critical-msg {
+            background: #2a0000;
+            border: 2px solid red;
+            padding: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 0 30px red;
         }
 
-        .dl-card {
-            background: #011313;
-            border: 1px solid #00ffc3;
-            padding: 0.8rem;
-            border-radius: 0;
-            transition: 0.3s;
-            border-left: 8px solid #ff00b3;
-            box-shadow: 0 0 15px #0ff;
+        /* download buttons */
+        .dl-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
         }
 
-        .dl-card a {
-            color: #a2fffd;
+        .dl-btn {
+            background: #0c1a1f;
+            border: 2px solid #0fa;
+            color: #cfc;
+            padding: 12px 20px;
             text-decoration: none;
             font-weight: bold;
-            display: block;
-            word-break: break-all;
-            font-size: 0.9rem;
-            border-bottom: 1px dashed cyan;
-            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            border-radius: 0;
+            box-shadow: 0 0 10px #0fa;
         }
 
-        .dl-card i {
-            color: #ff44ee;
-            margin-right: 0.5rem;
+        .dl-btn i {
+            font-size: 1.8rem;
+            width: 35px;
+            color: #ffd966;
         }
 
-        .dl-card:hover {
-            background: #022222;
-            border-left-color: cyan;
-            box-shadow: 0 0 30px magenta;
+        .dl-btn:hover {
+            background: #1f3a3f;
+            border-color: yellow;
+            box-shadow: 0 0 30px yellow;
+            transform: translateX(8px);
         }
 
         /* live chat box */
-        .chat-panel {
-            background: #030f0e;
+        .chat-box {
+            background: #031016;
             border: 2px solid #00ffff;
-            box-shadow: 0 0 30px #0ff;
-        }
-
-        .chat-header {
-            background: #001111;
-            padding: 0.8rem;
-            border-bottom: 2px solid cyan;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.3rem;
+            padding: 10px;
+            box-shadow: 0 0 25px cyan;
         }
 
         .chat-messages {
+            background: #00000080;
             height: 200px;
             overflow-y: auto;
-            padding: 1rem;
-            background: #010a09;
+            padding: 10px;
+            font-size: 0.95rem;
+            border: 1px solid cyan;
+            margin-bottom: 12px;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: 6px;
         }
 
         .chat-msg {
-            border-bottom: 1px solid #005f5f;
-            padding: 0.3rem;
+            border-bottom: 1px solid #1f9;
+            padding: 4px 0;
+            color: #b3ffcf;
+            word-break: break-word;
+        }
+
+        .chat-msg .time {
+            color: #f9f;
+            margin-right: 8px;
+        }
+
+        .chat-msg .user {
+            color: #ffb469;
+            font-weight: bold;
         }
 
         .chat-input-area {
             display: flex;
-            border-top: 2px solid cyan;
+            gap: 10px;
         }
 
         .chat-input-area input {
             flex: 1;
-            background: black;
-            border: none;
-            padding: 0.8rem;
-            color: #0ff;
-            font-family: inherit;
+            background: #111c22;
+            border: 1px solid #0f6;
+            color: #0f6;
+            padding: 12px;
             font-size: 1rem;
             outline: none;
         }
 
         .chat-input-area button {
-            background: #00ccaa;
-            border: none;
-            color: black;
+            background: black;
+            border: 2px solid #0f6;
+            color: #0f6;
             font-weight: bold;
-            padding: 0 1.5rem;
+            padding: 0 20px;
             cursor: pointer;
-            font-size: 1.2rem;
             transition: 0.2s;
-            border-left: 2px solid magenta;
+            font-size: 1.2rem;
         }
 
         .chat-input-area button:hover {
-            background: magenta;
-            color: white;
-            box-shadow: 0 0 15px cyan;
+            background: #0f6;
+            color: black;
+            box-shadow: 0 0 20px #0f6;
         }
 
-        /* blinking cursor animation */
-        .blink {
-            animation: blinkMe 1s step-end infinite;
+        /* animations */
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; text-shadow: 0 0 15px red; }
+            100% { opacity: 1; }
         }
-        @keyframes blinkMe {
-            0%,100% { opacity: 1; }
+
+        @keyframes blinkWarning {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; background: #ff000030; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes scanLine {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .threat-line {
+            background: linear-gradient(90deg, #2a0000, #500, #2a0000);
+            background-size: 200% auto;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px dashed #0f6;
+            padding: 15px;
+            color: #4fa;
+        }
+
+        /* blinking cursor effect */
+        .cursor-blink::after {
+            content: "_";
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
-        /* owner badge */
-        .owner-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #000f0c;
-            border-color: #ff00b3;
-        }
-
-        .owner-tag {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #ff44ee;
-            text-shadow: 0 0 15px magenta;
-        }
-
-        /* status animation */
-        .hack-animation {
-            display: flex;
-            gap: 0.3rem;
-            font-size: 1.3rem;
-        }
-
-        .hack-animation span {
-            background: black;
-            padding: 0 0.4rem;
-            border: 1px solid cyan;
-            color: #ffaa00;
-            animation: flick 2s infinite;
-        }
-
-        @keyframes flick {
-            0% { opacity: 1; }
-            60% { opacity: 1; }
-            61% { opacity: 0.1; }
-            70% { opacity: 1; }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 1rem;
-            color: #4d998c;
-            border-top: 1px dashed cyan;
-            padding-top: 1rem;
+        /* matrix dot */
+        .small-note {
+            color: #6fc;
+            font-size: 0.9rem;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-<div class="cyber-wrap">
+    <div class="container">
 
-    <!-- HEADER ASCII + TITLE -->
-    <div class="header-panel">
-        <pre class="glitch" style="font-size: 0.8rem; line-height: 1.3;">
-════════════════════════════════════════════════════
-        ⛔ SYSTEM LOCKDOWN • UNAUTHORIZED ACCESS ⛔
-════════════════════════════════════════════════════
+        <!-- header -->
+        <div class="header">
+            <div class="god-name">
+                💀 GOD OF SERVER 💀
+                <small>⛔ CYBER LOCKDOWN ACTIVE ⛔</small>
+            </div>
+            <div class="contact-row">
+                <a href="mailto:hakarnikiya@gmail.com"><i class="fas fa-envelope"></i> hakarnikiya</a>
+                <a href="https://www.youtube.com/@NIKIYA-MOD" target="_blank"><i class="fab fa-youtube"></i> @NIKIYA-MOD</a>
+                <a href="https://t.me/nikiyamod" target="_blank"><i class="fab fa-telegram"></i> nikiyamod</a>
+                <a href="https://t.me/nikcymod" target="_blank"><i class="fab fa-telegram"></i> nikcymod</a>
+                <a href="https://whatsapp.com/channel/0029VbBp6cx5PO15V2fkip3C" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Ch</a>
+            </div>
+        </div>
 
-[ SECURITY STATUS ] : MAXIMUM DEFENSE ⚡
-[ FIREWALL MODE ]   : BLACKOUT SHIELD v12.9
-[ ENCRYPTION ]      : QUANTUM X512 ACTIVE 🔒
-[ PROTOCOL ]        : CYBER HACKING LOCK ENGINE
-[ ACCESS LEVEL ]    : ZERO PERMISSION ❌
-        </pre>
+        <!-- main content -->
+        <div class="main-panels">
+            <!-- LEFT: threats, lockdown, core engine -->
+            <div class="left-panel">
+                <!-- ⛔ DETECTED THREATS -->
+                <div class="terminal-block">
+                    <div class="block-title"><i class="fas fa-skull-crossbow"></i> ⚔️ DETECTED THREATS — LIVE REPORT</div>
+                    <div class="threat-line">• Port Scanning Attempt ............ <span class="critical">BLOCKED</span></div>
+                    <div class="threat-line">• Kernel Override Attempt .......... <span class="critical">TERMINATED</span></div>
+                    <div class="threat-line">• Root Injection Script ............ <span class="critical">FAILED</span></div>
+                    <div class="threat-line">• Proxy Jump Sequence .............. <span class="critical">DESTROYED</span></div>
+                    <div class="threat-line">• Reverse VPN Spoof ............... <span class="critical">NEUTRALIZED</span></div>
+                    <div class="threat-line">• Dark Web Trace .................. <span class="critical">DEFLECTED</span></div>
+                </div>
+
+                <!-- 🚨 SYSTEM AUTOMATIC RESPONSE -->
+                <div class="terminal-block">
+                    <div class="block-title"><i class="fas fa-satellite-dish"></i> 🚨 SYSTEM AUTOMATIC RESPONSE ENABLED</div>
+                    <div class="grid-2">
+                        <span class="status-line">• ANTI-INTRUDE MODE ....... ARMED</span>
+                        <span class="status-line">• SHADOW TRACER ........... ONLINE</span>
+                        <span class="status-line">• DEVICE FINGERPRINT ...... CAPTURED</span>
+                        <span class="status-line">• HIDDEN BACKUP MODE ...... ACTIVATED</span>
+                        <span class="status-line">• STEALTH SENSOR .......... 100% SENSITIVE ⚡</span>
+                    </div>
+                </div>
+
+                <!-- 《 CORE ENGINE 》 -->
+                <div class="terminal-block">
+                    <div class="block-title"><i class="fas fa-microchip"></i> 《 CYBER HACKING LOCK • CORE ENGINE 》 DARK PROTECTION SYSTEM</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="core-value"><span>> ROOT ACCESS</span> <span class="critical">PERMANENTLY LOCKED 🔒</span></div>
+                        <div class="core-value"><span>> SYSTEM GATE</span> <span>SEALED</span></div>
+                        <div class="core-value"><span>> BIOS LAYER</span> <span>CLOSED</span></div>
+                        <div class="core-value"><span>> TERMLINK</span> <span>DISCONNECTED</span></div>
+                        <div class="core-value"><span>> KEY OVERRIDE</span> <span>INVALID</span></div>
+                        <div class="core-value"><span>> IDENTITY SCAN</span> <span class="critical">FAILED ❌</span></div>
+                        <div class="core-value"><span>> REAL-TIME MONITOR</span> <span class="critical">ACTIVE 🔥</span></div>
+                    </div>
+                </div>
+
+                <!-- ⚠ FINAL CRITICAL MESSAGE -->
+                <div class="critical-msg">
+                    <i class="fas fa-radiation" style="font-size: 2rem;"></i><br>
+                    ⚠ FINAL CRITICAL MESSAGE ⚠<br>
+                    THIS DEVICE IS UNDER CYBER LOCKDOWN…<br>
+                    ALL BYPASS KEYS INVALID…<br>
+                    ALL ENTRY POINTS BLOCKED…<br>
+                    REVERSE TRACE  ➤ ONLINE 🔁<br>
+                    INTRUDER LOCATION TRACKING…<br>
+                    STATUS : <span class="critical">RUNNING ⚡</span>
+                </div>
+
+                <!-- footer of left panel: lockdown complete -->
+                <div style="border: 2px solid #0f6; padding: 15px; background: #030e14; text-align: center; margin-bottom: 10px;">
+                    ════════════════════════════════════════════════════<br>
+                    《 CYBER HACKING LOCKDOWN COMPLETE 》<br>
+                    ════════════════════════════════════════════════════
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: downloads + live chat + owner -->
+            <div class="right-panel">
+                <!-- owner card -->
+                <div class="terminal-block" style="text-align: center;">
+                    <div class="block-title"><i class="fas fa-user-secret"></i> OWNER</div>
+                    <div style="font-size: 2.5rem; line-height: 1.2;">👤 NIKIYA</div>
+                    <div class="small-note">• root: administrator #godofserver •</div>
+                </div>
+
+                <!-- ALL DOWNLOAD TOOLS -->
+                <div class="terminal-block">
+                    <div class="block-title"><i class="fas fa-download"></i> HACKING TOOLSET</div>
+                    <div class="dl-section">
+                        <a href="https://www.mediafire.com/file/9fqxlc8qo17ytfm/HAKING_NIKIYA_TOOLS_1.0.apk/file" target="_blank" class="dl-btn"><i class="fas fa-dragon"></i> HACKING NIKIYA TOOLS 1.0</a>
+                        <a href="https://www.mediafire.com/file/vcav4cw3fodmqg0/%25F0%259F%2594%25B0%25E2%2583%25A2%25E2%2583%25A2W%25E2%2583%259DH_BAND_MOD_CYBER_NIKI%25F0%259F%2587%25B1%25F0%259F%2587%25B0%25E2%2583%25A2%25F0%259F%2594%25B0_1.0.apk/file" target="_blank" class="dl-btn"><i class="fas fa-unlock-alt"></i> 🔰WΞH BAND MOD CYBER NIKI</a>
+                        <a href="https://www.mediafire.com/file/7f3e9u8qkwuy8rx/AUTO_COLL_END_4.0.apk/file" target="_blank" class="dl-btn"><i class="fas fa-phone-slash"></i> AUTO CALL END 4.0</a>
+                        <a href="https://www.mediafire.com/file/biju6iouwfk7phz/Banido_WhatsApp_1.0.apk/file" target="_blank" class="dl-btn"><i class="fas fa-ban"></i> BANIDO WHATSAPP 1.0</a>
+                    </div>
+                </div>
+
+                <!-- LIVE CHAT BOX -->
+                <div class="chat-box">
+                    <div class="block-title" style="margin-top: 0;"><i class="fas fa-comment-dots"></i> LIVE INTRUDER CHAT • encrypted</div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-msg"><span class="time">[00:00]</span> <span class="user">SYSTEM:</span> Shadow monitor online.</div>
+                        <div class="chat-msg"><span class="time">[00:05]</span> <span class="user">root:</span> Unauthorized access attempt from 185.142.53.x</div>
+                        <div class="chat-msg"><span class="time">[00:11]</span> <span class="user">NIKIYA:</span> All ports sealed.</div>
+                        <div class="chat-msg"><span class="time">[00:18]</span> <span class="user">_anonymous_:</span> can i get whatsapp ban tool?</div>
+                        <div class="chat-msg"><span class="time">[00:22]</span> <span class="user">GODSERVER:</span> tools are ready above ↑</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chatInput" placeholder="Type message ..." maxlength="60">
+                        <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                    <div class="small-note" style="margin-top: 5px;">⚠️ all chats monitored • trace online</div>
+                </div>
+
+                <!-- extra: whatsapp channel again -->
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
+                    <a href="https://whatsapp.com/channel/0029VbBp6cx5PO15V2fkip3C" target="_blank" style="color:#0f6; border:1px solid #0f6; padding:10px; background:black;"><i class="fab fa-whatsapp"></i> WhatsApp Channel</a>
+                    <a href="https://t.me/nikiyamod" target="_blank" style="color:#0f6; border:1px solid #0f6; padding:10px; background:black;"><i class="fab fa-telegram"></i> t.me/nikiyamod</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer email repeated -->
+        <div class="footer">
+            ✦ CONTACT : <a href="mailto:hakarnikiya@gmail.com" style="color:#ffb86b;">hakarnikiya@gmail.com</a> ✦ YOUTUBE : <a href="https://www.youtube.com/@NIKIYA-MOD" target="_blank" style="color:#ffb86b;">@NIKIYA-MOD</a> ✦
+            <br>#GOD_OF_SERVER • ALL HACKING ANIMATION ACTIVE • ⚡ LOCKDOWN PERMANENT
+        </div>
     </div>
 
-    <!-- contact & live threat + HACKING ANIMATION -->
-    <div class="status-panel">
-        <div class="contact-links">
-            <a href="mailto:hakarnikiya@gmail.com"><i class="fas fa-envelope"></i> Mail</a>
-            <a href="https://www.youtube.com/@NIKIYA-MOD" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="https://t.me/nikiyamod" target="_blank"><i class="fab fa-telegram"></i> t.me/nikiyamod</a>
-            <a href="https://t.me/nikcymod" target="_blank"><i class="fab fa-telegram"></i> t.me/nikcymod</a>
-        </div>
-        <div class="live-threat">
-            <i class="fas fa-skull-crosswalk"></i> LIVE THREAT: <span class="blink">PORT SCAN 192.168.0.45 BLOCKED</span>
-        </div>
-        <div class="hack-animation">
-            <span>⚡</span><span>🖥️</span><span>🔓</span><span>💻</span><span>⛔</span><span>🌀</span>
-        </div>
-    </div>
+    <!-- javascript for live chat, animations, dummy threat update -->
+    <script>
+        (function() {
+            // chat functionality
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendChatBtn');
 
-    <!-- DETECTED THREATS REPORT (inline) -->
-    <div style="background:#021010; border:2px solid cyan; padding:1rem; display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between;">
-        <div style="color:#0ff;">
-            ⚠ DETECTED THREATS — LIVE REPORT ⚠<br>
-            • Port Scanning Attempt ............ BLOCKED  <br>
-            • Kernel Override Attempt .......... TERMINATED <br>
-            • Root Injection Script ............ FAILED <br>
-            • Proxy Jump Sequence .............. DESTROYED <br>
-            • Reverse VPN Spoof ............... NEUTRALIZED <br>
-            • Dark Web Trace .................... DEFLECTED <br>
-        </div>
-        <div style="color:#ff77ff; border-left:2px solid magenta; padding-left:1rem;">
-            🚨 SYSTEM AUTOMATIC RESPONSE 🚨<br>
-            • ANTI-INTRUDE MODE ............... ARMED <br>
-            • SHADOW TRACER ................... ONLINE <br>
-            • DEVICE FINGERPRINT .............. CAPTURED <br>
-            • HIDDEN BACKUP MODE .............. ACTIVATED <br>
-            • STEALTH SENSOR .................. 100% SENSITIVE ⚡<br>
-        </div>
-    </div>
-
-    <!-- CORE ENGINE  -->
-    <div class="core-panel">
-        <div style="text-align:center; font-size:1.5rem; margin-bottom:1rem;">《 CYBER HACKING LOCK • CORE ENGINE 》<br>DARK PROTECTION SYSTEM</div>
-        <div class="core-grid">
-            <div class="core-item"><span>> ROOT ACCESS</span> <span class="lock">PERMANENTLY LOCKED 🔒</span></div>
-            <div class="core-item"><span>> SYSTEM GATE</span> <span class="lock">SEALED</span></div>
-            <div class="core-item"><span>> BIOS LAYER</span> <span class="lock">CLOSED</span></div>
-            <div class="core-item"><span>> TERMLINK</span> <span class="lock">DISCONNECTED</span></div>
-            <div class="core-item"><span>> KEY OVERRIDE</span> <span class="lock">INVALID</span></div>
-            <div class="core-item"><span>> IDENTITY SCAN</span> <span class="lock">FAILED ❌</span></div>
-            <div class="core-item"><span>> REAL-TIME MONITOR</span> <span class="lock">ACTIVE 🔥</span></div>
-        </div>
-        <div style="margin-top:1.5rem; background:#000505; padding:1rem; border:1px dashed magenta; font-weight:bold; text-align:center;">
-            ⚠ FINAL CRITICAL MESSAGE ⚠<br>
-            THIS DEVICE IS UNDER CYBER LOCKDOWN… ALL BYPASS KEYS INVALID… <br>
-            ALL ENTRY POINTS BLOCKED… REVERSE TRACE  ➤ ONLINE 🔁 <br>
-            INTRUDER LOCATION TRACKING… STATUS : RUNNING ⚡
-        </div>
-    </div>
-
-    <!-- DOWNLOADS SECTION (WhatsApp hacking tools) -->
-    <div class="downloads">
-        <h2 style="border-left: 10px solid #ff00b3; padding-left: 1rem; text-shadow:0 0 8px magenta;"><i class="fas fa-download"></i> ⚡ NIKIYA TOOLS ARMORY ⚡</h2>
-        <div class="downloads-grid">
-            <div class="dl-card"><i class="fas fa-user-secret"></i> HACKING TOOLS 1.0<br><a href="https://www.mediafire.com/file/9fqxlc8qo17ytfm/HAKING_NIKIYA_TOOLS_1.0.apk/file" target="_blank">🔻 HAKING_NIKIYA_TOOLS_1.0.apk</a></div>
-            <div class="dl-card"><i class="fas fa-ban"></i> WhatsApp BAND/UNBAND<br><a href="https://www.mediafire.com/file/vcav4cw3fodmqg0/%25F0%259F%2594%25B0%25E2%2583%25A2%25E2%2583%25A2W%25E2%2583%25DH_BAND_MOD_CYBER_NIKI%25F0%259F%2587%25B1%25F0%259F%2587%25B0%25E2%2583%25A2%25F0%259F%2594%25B0_1.0.apk/file" target="_blank">🔻 BAND_MOD_CYBER_NIKI.apk</a></div>
-            <div class="dl-card"><i class="fas fa-hourglass-end"></i> AUTO COLL END 4.0<br><a href="https://www.mediafire.com/file/7f3e9u8qkwuy8rx/AUTO_COLL_END_4.0.apk/file" target="_blank">🔻 AUTO_COLL_END_4.0.apk</a></div>
-            <div class="dl-card"><i class="fas fa-shield-halved"></i> WhatsApp BAND TOOLS<br><a href="https://www.mediafire.com/file/biju6iouwfk7phz/Banido_WhatsApp_1.0.apk/file" target="_blank">🔻 Banido_WhatsApp_1.0.apk</a></div>
-        </div>
-    </div>
-
-    <!-- LIVE CHAT BOX -->
-    <div class="chat-panel">
-        <div class="chat-header">
-            <i class="fas fa-comment-dots" style="color:#ff44ee;"></i> [LIVE] · SECURE CHANNEL · #GOD_SERVER <span style="font-size:0.8rem; color: lime;">(3 users online)</span>
-            <i class="fas fa-circle" style="color:#0f0; font-size: 0.6rem; margin-left: auto; animation: blinkMe 1s infinite;"></i>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div class="chat-msg"><span style="color:magenta;">[ROOT]</span> ⚡ INTRUDER ALERT: 45.155.205.142</div>
-            <div class="chat-msg"><span style="color:cyan;">[SHIELD]</span> ▸ reverse shell blocked</div>
-            <div class="chat-msg"><span style="color:#ffaa33;">[NIKIYA]</span> God of server online</div>
-            <div class="chat-msg"><span style="color:#00ff99;">[DAEMON]</span> x512 handshake failed</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder=">_  drop a message... (simulated)">
-            <button id="sendChat"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <!-- OWNER AREA + extra animation -->
-    <div class="owner-area">
-        <span class="owner-tag"><i class="fas fa-crown"></i> OWNER: NIKIYA</span>
-        <span style="display:flex; gap:0.5rem;">
-            <i class="fas fa-bolt" style="color:yellow;"></i>
-            <i class="fas fa-bolt" style="color:#0ff;"></i>
-            <span style="border:1px solid cyan; padding:0.2rem 0.6rem;">GOD OF SERVER</span>
-        </span>
-    </div>
-
-    <!-- bottom note with final line -->
-    <footer>
-        ════════════════════════════════════════════════════ <br>
-        《 CYBER HACKING LOCKDOWN COMPLETE 》
-        ════════════════════════════════════════════════════
-    </footer>
-</div>
-
-<!-- CHAT SCRIPT (pure js) -->
-<script>
-    (function() {
-        const messagesDiv = document.getElementById('chatMessages');
-        const inputBox = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendChat');
-
-        // system hacking-like words for auto-responder (just for fun)
-        const autoReplies = [
-            "⚠️ IDS: signature match 0x7F4",
-            "🔒 port 22 closed • ssh brute blocked",
-            "📡 reverse traceroute: 10.0.0.45 (honeypot)",
-            "💀 intrusion attempt logged",
-            "⚡ QUANTUM key regeneration",
-            "🛡️ firewall rule #417 applied",
-            "🌀 spoofed packet dropped",
-            "📲 NIKIYA: access granted? no.",
-            "🔐 god of server: lockdown steady"
-        ];
-
-        function addMessage(sender, text, color = '#00ffc3') {
-            const msg = document.createElement('div');
-            msg.className = 'chat-msg';
-            msg.innerHTML = `<span style="color:${color};">[${sender}]</span> ${text}`;
-            messagesDiv.appendChild(msg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // predefined system messages (animated)
-        setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * autoReplies.length);
-            const sysMsg = autoReplies[randomIndex];
-            addMessage('SYS', sysMsg, '#ff77ff');
-        }, 8000); // every 8 seconds, background chatter
-
-        sendBtn.addEventListener('click', function() {
-            const text = inputBox.value.trim();
-            if (text === '') return;
-            addMessage('YOU', text, '#ffaa00');
-            inputBox.value = '';
-
-            // short simulated "hacker" reply after 1 second
-            setTimeout(() => {
-                const rep = autoReplies[Math.floor(Math.random() * autoReplies.length)];
-                addMessage('SHADOW', rep, '#0ff');
-            }, 1000);
-        });
-
-        inputBox.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendBtn.click();
+            function addMessage(username, text) {
+                if (!text.trim()) return;
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-msg';
+                const now = new Date();
+                const timeStr = `[${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}]`;
+                msgDiv.innerHTML = `<span class="time">${timeStr}</span> <span class="user">${username}:</span> ${text}`;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
-        });
 
-        // boot message
-        setTimeout(() => {
-            addMessage('KERNEL', 'heap randomization enabled', 'lime');
-        }, 500);
-    })();
-</script>
+            sendBtn.addEventListener('click', function() {
+                const msg = chatInput.value;
+                if (msg !== '') {
+                    addMessage('intruder', msg);
+                    chatInput.value = '';
+                    // optionally auto-reply after 1 sec (hacking vibe)
+                    setTimeout(() => {
+                        addMessage('GOD⚡SERVER', '> intrusion logged · trace in progress');
+                    }, 800);
+                }
+            });
 
-<!-- subtle glitch animation on some elements -->
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendBtn.click();
+                }
+            });
+
+            // periodically add fake threat animation (just to show live updates)
+            let counter = 0;
+            const threatLines = [
+                '• New backdoor attempt ........... REPELLED',
+                '• DNS poisoning ................... FAILED',
+                '• SYN flood ....................... DROPPED',
+                '• ICMP tunnel .................... BLOCKED',
+                '• ARP spoof ....................... NEUTRALIZED'
+            ];
+
+            setInterval(() => {
+                // change one threat line at random for "live" effect (but keep original structure)
+                // simpler: push a chat message from system
+                addMessage('⚠️ IDS', 'scanning intrusion #' + (Math.floor(Math.random()*100)));
+            }, 7000);
+
+            // extra blinking simulation on title
+            const titles = document.querySelectorAll('.critical-msg, .core-value .critical');
+            // animation is via css, fine.
+
+            // one more: cursor blink on block titles?
+            const cursorSpan = document.createElement('span');
+            cursorSpan.className = 'cursor-blink';
+            // not necessary but fun.
+        })();
+    </script>
+
+    <!-- ensure all links open new tab with proper protocol -->
 </body>
 </html>
