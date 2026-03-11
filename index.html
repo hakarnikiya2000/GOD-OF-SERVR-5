@@ -1,550 +1,595 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>GOD OF SERVER · cyber matrix</title>
-    <style>
-        /* RESET + GLOBAL DARK HACKER THEME */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOD OF SERVER · cyber matrix</title>
+  <style>
+    /* GLOBAL RESET & DARK HACKER THEME */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+    }
 
-        body {
-            background-color: #0b0f0b;
-            color: #0f0;
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    body {
+      background-color: #0a0c0b;
+      color: #3aff5e;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
 
-        /* matrix rain canvas (background) */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.25;
-            pointer-events: none;
-        }
+    /* matrix rain canvas (background) */
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.25;
+      pointer-events: none;
+    }
 
-        /* glitch & neon scanlines overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,255,0,0.02) 0px, rgba(0,0,0,0.4) 2px, transparent 3px);
-            pointer-events: none;
-            z-index: 0;
-        }
+    /* scanner line effect (moving) */
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg, transparent 0%, rgba(0, 255, 0, 0.03) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: -1;
+      animation: scan 8s linear infinite;
+    }
 
-        /* main container */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 1rem;
-            position: relative;
-            z-index: 5;
-        }
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(200%); }
+    }
 
-        /* ===== TYPOGRAPHY & EFFECTS ===== */
-        .glitch {
-            font-size: clamp(2.2rem, 10vw, 4.5rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #0f0;
-            text-shadow: -2px -2px 0 #0ff, 2px 2px 0 #f0f;
-            letter-spacing: 5px;
-            animation: glitch-anim 2s infinite linear alternate;
-        }
+    /* loading overlay */
+    #loading {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #0f0f0f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease;
+      border: 2px solid #0f0;
+      box-shadow: inset 0 0 50px #0f02;
+      flex-direction: column;
+    }
+    .loader-text {
+      font-size: 2.5rem;
+      text-shadow: 0 0 15px #0f0;
+      animation: flicker 2s infinite;
+      letter-spacing: 5px;
+    }
+    .loader-sub {
+      color: #0f0;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      border-right: 2px solid #0f0;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 30ch;
+      animation: typing 2.5s steps(30) infinite;
+    }
+    @keyframes typing {
+      0% { width: 0; }
+      50% { width: 30ch; }
+      90% { width: 30ch; }
+      100% { width: 0; }
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; text-shadow: 0 0 30px #0f0; }
+    }
 
-        @keyframes glitch-anim {
-            0% { text-shadow: -3px -2px 0 #0ff, 3px 2px 0 #f0f; }
-            20% { text-shadow: 2px -3px 0 #ff0, -2px 3px 0 #0ff; }
-            40% { text-shadow: -2px 3px 0 #f0f, 3px -2px 0 #ff0; }
-            60% { text-shadow: 3px 2px 0 #0ff, -3px -2px 0 #f0f; }
-            80% { text-shadow: 2px 3px 0 #f0f, -2px -3px 0 #0ff; }
-            100% { text-shadow: -3px 2px 0 #ff0, 3px -2px 0 #0ff; }
-        }
+    /* main container */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 20px 25px;
+      backdrop-filter: blur(1px);
+    }
 
-        .terminal-text {
-            background: #111;
-            border-left: 6px solid #0f0;
-            padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            box-shadow: 0 0 20px #0f03, inset 0 0 10px #0f01;
-            font-family: 'Courier New', monospace;
-            margin: 2rem 0;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-word;
-            color: #0f0;
-            border: 1px solid #0f03;
-        }
+    /* common sections */
+    section {
+      margin: 70px 0;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 20px #0f08, inset 0 0 10px #0f06;
+      padding: 30px 25px;
+      background: rgba(0, 5, 0, 0.7);
+      backdrop-filter: blur(4px);
+      position: relative;
+    }
 
-        .alert-red {
-            color: #ff4444;
-            text-shadow: 0 0 8px #ff0000;
-            font-weight: bold;
-        }
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      border-bottom: 2px solid #0f0;
+      display: inline-block;
+      padding-bottom: 8px;
+      color: #b3ffb3;
+      text-shadow: 0 0 10px #0f0;
+    }
 
-        .neon-border {
-            border: 2px solid #0f0;
-            box-shadow: 0 0 15px #0f0, inset 0 0 10px #0f0;
-            border-radius: 10px;
-            transition: 0.2s;
-        }
+    /* glitch effect for main title */
+    .glitch {
+      font-size: 4rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      position: relative;
+      text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00fff9;
+      animation: glitch 725ms infinite;
+      color: #0f0;
+      letter-spacing: 10px;
+    }
+    @keyframes glitch {
+      0%, 100% { text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00fff9; }
+      25% { text-shadow: -0.05em -0.025em 0 #ff00c1, 0.025em 0.025em 0 #00fff9; }
+      50% { text-shadow: 0.025em 0.05em 0 #ff00c1, 0.05em 0 0 #00fff9; }
+      75% { text-shadow: -0.025em 0 0 #ff00c1, -0.025em -0.025em 0 #00fff9; }
+    }
 
-        .neon-border:hover {
-            box-shadow: 0 0 25px #0ff, inset 0 0 15px #0ff;
-            border-color: #0ff;
-        }
+    /* terminal style box */
+    .terminal-box {
+      background: #001200;
+      border: 2px solid #0f0;
+      padding: 25px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      color: #3aff5e;
+      box-shadow: 0 0 30px #0f04, inset 0 0 10px #0f02;
+      border-radius: 0;
+      line-height: 2;
+    }
 
-        .cyber-scan {
-            position: relative;
-            overflow: hidden;
-        }
-        .cyber-scan::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #0f03, transparent);
-            animation: scan 4s linear infinite;
-            pointer-events: none;
-        }
+    .warning {
+      color: #ff4d4d;
+      text-shadow: 0 0 8px red;
+      font-weight: bold;
+    }
 
-        @keyframes scan {
-            0% { top: -100%; }
-            100% { top: 200%; }
-        }
+    .blue-highlight {
+      color: #33b5ff;
+      text-shadow: 0 0 5px #33b5ff;
+    }
 
-        /* loading screen */
-        #loading {
-            position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: #030603;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-            color: #0f0;
-            font-size: 2rem;
-            transition: opacity 1s;
-            text-shadow: 0 0 10px #0f0;
-        }
-        #loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .loader-dot {
-            width: 20px; height: 20px;
-            background: #0f0;
-            border-radius: 0;
-            margin: 10px;
-            display: inline-block;
-            box-shadow: 0 0 20px #0f0;
-            animation: pulse 1.2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; }
-        }
+    /* menu lists */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 35px;
+    }
+    .menu-panel {
+      border: 2px solid #0f0;
+      padding: 20px;
+      background: #021002;
+      box-shadow: 0 0 25px #0f06;
+    }
+    .menu-panel h3 {
+      font-size: 2rem;
+      border-bottom: 1px dashed #0f0;
+      margin-bottom: 20px;
+      color: #aaffaa;
+    }
+    .menu-panel ul {
+      list-style: none;
+    }
+    .menu-panel li {
+      padding: 8px 0;
+      border-left: 3px solid #0f0;
+      padding-left: 15px;
+      margin: 10px 0;
+      transition: 0.2s;
+    }
+    .menu-panel li:hover {
+      border-left: 8px solid #33b5ff;
+      color: #fff;
+      text-shadow: 0 0 10px #0f0;
+    }
 
-        /* sections */
-        section {
-            margin: 3rem 0;
-            padding: 2rem 1.5rem;
-            background: rgba(0, 10, 0, 0.7);
-            backdrop-filter: blur(1px);
-            border: 1px solid #0f03;
-            border-radius: 20px;
-            box-shadow: 0 0 30px #0f01;
-            position: relative;
-        }
+    /* download cards */
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .download-card {
+      border: 2px solid #0f0;
+      background: #0d1a0d;
+      padding: 20px;
+      transition: 0.2s;
+      box-shadow: 0 0 15px #0f0;
+      animation: neonPulse 2s infinite;
+    }
+    .download-card a {
+      color: #33b5ff;
+      text-decoration: none;
+      word-break: break-all;
+      font-size: 0.9rem;
+      display: block;
+      margin-top: 15px;
+      border: 1px solid #0f0;
+      padding: 12px;
+      text-align: center;
+      background: #011101;
+      transition: 0.2s;
+    }
+    .download-card a:hover {
+      background: #0f0;
+      color: black;
+      font-weight: bold;
+    }
+    @keyframes neonPulse {
+      0% { box-shadow: 0 0 5px #0f0; }
+      50% { box-shadow: 0 0 25px #0f0; }
+      100% { box-shadow: 0 0 5px #0f0; }
+    }
 
-        h2 {
-            font-size: 2.2rem;
-            border-bottom: 3px solid #0f0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-        }
+    /* team cards */
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    .team-card {
+      border: 2px solid #0f0;
+      padding: 30px 25px;
+      min-width: 200px;
+      text-align: center;
+      background: #051005;
+      box-shadow: 0 0 30px #0f0;
+      transition: 0.2s;
+    }
+    .team-card .role {
+      color: #33b5ff;
+      font-size: 1.2rem;
+    }
+    .team-card .name {
+      font-size: 2rem;
+      font-weight: bold;
+    }
 
-        /* menu grids */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+    /* contact & buttons */
+    .contact-info {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      border: 2px dashed #0f0;
+      padding: 25px;
+    }
+    .social-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .social-btn {
+      border: 2px solid #0f0;
+      background: transparent;
+      color: #0f0;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: 0.2s;
+      flex: 1 0 180px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      box-shadow: 0 0 15px #0f04;
+    }
+    .social-btn:hover {
+      background: #0f0;
+      color: black;
+      box-shadow: 0 0 50px #0f0;
+    }
 
-        .menu-card {
-            background: #0a0f0a;
-            border: 1px solid #0f0;
-            padding: 1.8rem 1.5rem;
-            border-radius: 16px;
-            box-shadow: 0 0 15px #0f0;
-            transition: 0.3s;
-        }
+    /* hacking apk list extra section */
+    .hacking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+    .hack-item {
+      border: 1px solid #0f0;
+      padding: 15px;
+      font-weight: bold;
+      color: #ff4d4d;
+      text-align: center;
+      box-shadow: inset 0 0 20px #0f02;
+    }
+    .big-question {
+      font-size: 2.5rem;
+      text-align: center;
+      color: #33b5ff;
+    }
 
-        .menu-card ul {
-            list-style: none;
-        }
-        .menu-card li {
-            padding: 0.4rem 0;
-            border-bottom: 1px dashed #0f03;
-            display: flex;
-            align-items: center;
-        }
-        .menu-card li::before {
-            content: ">";
-            color: #0ff;
-            font-weight: bold;
-            margin-right: 10px;
-        }
+    /* team dp style */
+    .team-dp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background: #001500;
+      border: 2px solid #0f0;
+      padding: 30px;
+      flex-wrap: wrap;
+    }
+    .dp-frame {
+      border: 3px solid #0f0;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 50px #0f0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dp-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: hue-rotate(90deg) brightness(1.5);
+    }
+    .dp-caption {
+      font-size: 2rem;
+    }
 
-        /* download cards */
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-        .download-card {
-            background: #0c100c;
-            padding: 1.2rem;
-            border: 1px solid #0f0;
-            border-radius: 16px;
-            box-shadow: 0 0 12px #0f0;
-            word-break: break-all;
-        }
-        .download-card a {
-            color: #0ff;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-            border: 1px solid #0ff;
-            padding: 8px;
-            text-align: center;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-        .download-card a:hover {
-            background: #0f0;
-            color: #000;
-            border-color: #0f0;
-        }
-
-        /* team */
-        .team-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-        }
-        .team-member {
-            background: #0f0f0f;
-            border: 2px solid #0f0;
-            border-radius: 50px 20px 50px 20px;
-            padding: 1.5rem 2rem;
-            min-width: 170px;
-            text-align: center;
-            box-shadow: 0 0 30px #0f0;
-            animation: borderPulse 2s infinite;
-        }
-        @keyframes borderPulse {
-            0% { border-color: #0f0; box-shadow: 0 0 10px #0f0; }
-            50% { border-color: #0ff; box-shadow: 0 0 30px #0ff; }
-            100% { border-color: #0f0; box-shadow: 0 0 10px #0f0; }
-        }
-        .role {
-            color: #ff4444;
-            font-size: 0.9rem;
-        }
-
-        /* contact */
-        .contact-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .cyber-button {
-            background: transparent;
-            border: 2px solid #0f0;
-            color: #0f0;
-            padding: 0.8rem 1.8rem;
-            border-radius: 40px;
-            font-weight: bold;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: 0.3s;
-            box-shadow: 0 0 15px #0f0;
-            font-size: 1rem;
-        }
-        .cyber-button:hover {
-            background: #0f0;
-            color: black;
-            box-shadow: 0 0 40px #0f0;
-        }
-
-        /* typing animation */
-        .typing-demo {
-            width: fit-content;
-            border-right: 4px solid #0f0;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-        }
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: #0f0; }
-        }
-
-        /* mobile */
-        @media (max-width: 600px) {
-            .container { padding: 0.5rem; }
-            section { padding: 1rem; }
-            .glitch { letter-spacing: 2px; }
-            .menu-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    /* mobile responsive */
+    @media (max-width: 700px) {
+      h2 { font-size: 2rem; }
+      .glitch { font-size: 2.5rem; }
+      .container { padding: 10px; }
+      section { padding: 20px 15px; }
+      .dp-frame { width: 100px; height: 100px; }
+    }
+  </style>
 </head>
 <body>
+  <!-- canvas matrix rain -->
+  <canvas id="matrix-canvas"></canvas>
+  <div class="scan-line"></div>
 
-    <!-- MATRIX RAIN BACKGROUND -->
-    <canvas id="matrix-canvas"></canvas>
+  <!-- loading screen -->
+  <div id="loading">
+    <div class="loader-text">⚡ GOD OF SERVER ⚡</div>
+    <div class="loader-sub">Initializing Cyber Defense System…</div>
+  </div>
 
-    <!-- LOADING SCREEN -->
-    <div id="loading">
-        <div style="font-size: 3rem; margin-bottom: 2rem;">⧩</div>
-        <div class="typing-demo" style="font-size: 1.5rem;">Initializing Cyber Defense System...</div>
-        <div style="display: flex; margin-top: 2rem;">
-            <span class="loader-dot"></span>
-            <span class="loader-dot" style="animation-delay:0.3s"></span>
-            <span class="loader-dot" style="animation-delay:0.6s"></span>
+  <div class="container">
+    <!-- 1. HERO SECTION -->
+    <section id="hero">
+      <h1 class="glitch">GOD OF SERVER</h1>
+      <p style="font-size: 2rem; text-shadow: 0 0 15px #0f0;">Sri Lanka Cyber Security Team</p>
+      <div style="border: 1px solid #0f0; padding: 20px; margin-top: 40px; background: #000c;">
+        <span class="blue-highlight">[ SYSTEM SCAN ]</span> <span class="warning">⚠ REAL-TIME THREAT ANALYSIS</span>
+        <div style="height: 4px; width: 100%; background: linear-gradient(90deg, transparent, #0f0, transparent); margin: 20px 0;"></div>
+        <div class="terminal-box" style="font-size: 1.1rem;">
+          > CYBER DOME ACTIVE<br>
+          > MATRIX ENCRYPTION : 256-AES<br>
+          > INTRUSION DETECTION : 24/7<br>
         </div>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT SECTION (alert terminal) -->
+    <section id="about">
+      <h2>⛔ SYSTEM LOCKDOWN</h2>
+      <div class="terminal-box">
+        ⛔ SYSTEM LOCKDOWN • UNAUTHORIZED ACCESS ⛔<br><br>
+        <span class="warning">⚠ DETECTED THREATS — LIVE REPORT ⚠</span><br>
+        • Port Scanning Attempt ............ BLOCKED<br>
+        • Kernel Override Attempt .......... TERMINATED<br>
+        • Root Injection Script ............ FAILED<br>
+        • Proxy Jump Sequence .............. DESTROYED<br>
+        • Reverse VPN Spoof ............... NEUTRALIZED<br>
+        • Dark Web Trace .................... DEFLECTED<br><br>
+        <span class="blue-highlight">🚨 SYSTEM AUTOMATIC RESPONSE ENABLED 🚨</span><br>
+        • ANTI-INTRUDE MODE ............... ARMED<br>
+        • SHADOW TRACER ................... ONLINE<br>
+        • DEVICE FINGERPRINT .............. CAPTURED<br>
+        • HIDDEN BACKUP MODE .............. ACTIVATED<br>
+        • STEALTH SENSOR .................. 100% SENSITIVE<br><br>
+        <span class="warning">FINAL MESSAGE:<br>CYBER LOCKDOWN ACTIVE<br>REAL-TIME MONITORING ENABLED</span>
+      </div>
+    </section>
+
+    <!-- 3. MENU SECTION (two editors) -->
+    <section id="menu">
+      <h2>⎋ EDITOR TOOLS</h2>
+      <div class="menu-grid">
+        <div class="menu-panel">
+          <h3>EDITOR TOOLS 01</h3>
+          <ul>
+            <li>• Free bot links</li>
+            <li>• WhatsApp bot updates</li>
+            <li>• Premium apps</li>
+            <li>• Bot deployment updates</li>
+            <li>• Free hosting sites</li>
+            <li>• Cyber security tutorials</li>
+            <li>• Ethical hacking learning</li>
+            <li>• Bot command updates</li>
+          </ul>
+        </div>
+        <div class="menu-panel">
+          <h3>EDITOR TOOLS 02</h3>
+          <ul>
+            <li>• Android Security</li>
+            <li>• Ethical Hacking Courses</li>
+            <li>• WiFi Security</li>
+            <li>• OTP Security Awareness</li>
+            <li>• Facebook Security</li>
+            <li>• Telegram Security</li>
+            <li>• WhatsApp Security</li>
+            <li>• Instagram Security</li>
+            <li>• Network Protection</li>
+            <li>• Bot Development</li>
+            <li>• Mobile Security</li>
+            <li>• Internet Tricks</li>
+            <li>• WhatsApp Ban / Unban Help</li>
+            <li>• Instagram Growth Course</li>
+            <li>• Bot Deployment</li>
+            <li>• Apps and Tools</li>
+            <li>• Termux Learning</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. DOWNLOAD SECTION (cards) -->
+    <section id="download">
+      <h2>⬇ DOWNLOAD CARDS</h2>
+      <div class="download-grid">
+        <div class="download-card">whatsapp hacking tools <a href="https://www.mediafire.com/file/9fqxlc8qo17ytfm/HAKING_NIKIYA_TOOLS_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">whatsapp auto coll end tools <a href="https://www.mediafire.com/file/7f3e9u8qkwuy8rx/AUTO_COLL_END_4.0.apk/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">whatsapp band tools <a href="https://www.mediafire.com/file/hwzmoowrfbuckej/%25F0%259D%2590%2596%25F0%259D%2590%2580_%25F0%259D%2590%2581%25F0%259D%2590%2580%25F0%259D%2590%258D_%25F0%259D%2590%258D%25F0%259D%2590%2588%25F0%259D%2590%258A%25F0%259D%2590%2588%25F0%259D%2590%2598%25F0%259D%2590%2580_.zip/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">whatsapp band unbad tool <a href="https://www.mediafire.com/file/s8jxbkei96obqy3/NIKIYA_BAND_UNBAD_TOOL_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">nikcy chat room apk <a href="https://www.mediafire.com/file/b4ze0mqx4w82ws9/NIKCY_CHAT_ROOM_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">mod keyboard <a href="https://www.mediafire.com/file/2skn0yyhswv8l6l/%25F0%259F%2587%25A6%25F0%259F%2587%25B4%25E2%2583%259E%25E2%259A%2596%25EF%25B8%258F%25F0%259D%2590%258D%25CC%25B7%25C9%25AA%25E1%25B4%258B%25C9%25AA%25CD%25A0%25CA%258F%25CD%25A2%25E1%25B4%2580%25E2%258A%2591%25CD%25AD%25CD%259E_%25F0%259F%2594%25B1%25CD%25A2%25F0%259D%2590%258C%25CC%25B8%25E1%25B4%258F%25CD%25A0%25E1%25B4%2585%25E2%258A%2592%25E1%25B7%259E%25F0%259F%2587%25A6%25F0%259F%2587%25B4%25E2%2583%259E%25E2%259A%2596%25EF%25B8%258F__%25E1%25B4%2598%25E1%25B4%258F%25E1%25B4%25A1%25E1%25B4%2587%25CA%2580_%25CA%2599%25CA%258F_%25E1%25B4%258D%25E1%25B4%2587%25E1%25B4%258D%25CA%2599%25E1%25B4%2587%25CA%2580_%25E1%25B4%258F%25EA%259C%25B0_%25E1%25B4%259B%25CA%259C%25E1%25B4%2587_%25C9%25B4%25C9%25AA%25E1%25B4%258B%25E1%25B4%2584%25CA%258F_%25EA%259C%25B0%25E1%25B4%2580%25E1%25B4%258D%25C9%25AA%25CA%259F%25CA%258F._%25EA%259C%25B0%25C9%25AA%25C9%25A2%25CA%259C%25E1%25B4%259B%25C9%25AA%25C9%25B4%25C9%25A2_%25E1%25B4%258B%25E1%25B4%2587%25CA%258F%25CA%2599%25E1%25B4%258F%25E1%25B4%2580%25CA%2580%25E1%25B4%2585_%25F0%259D%2590%25951.apk/file" target="_blank">DOWNLOAD</a></div>
+        <div class="download-card">Deep web <a href="https://www.mediafire.com/file/vpdbsxrkxwwo3ci/Deep_WEB_5.3.5_apks.apk/file" target="_blank">DOWNLOAD</a></div>
+      </div>
+    </section>
+
+    <!-- 5. TEAM SECTION -->
+    <section id="team">
+      <h2>⚡ CYBER CLAN ⚡</h2>
+      <div class="team-grid">
+        <div class="team-card"><span class="role">Owner</span><div class="name">CYBER GOD NIKIYA</div></div>
+        <div class="team-card"><span class="role">Admin</span><div class="name">NITROB ZEUS</div></div>
+        <div class="team-card"><span class="role">Admin</span><div class="name">ANUVA</div></div>
+        <div class="team-card"><span class="role">Admin</span><div class="name">BEN 10</div></div>
+        <div class="team-card"><span class="role">Admin</span><div class="name">MONTAR</div></div>
+      </div>
+    </section>
+
+    <!-- 6. CONTACT SECTION + buttons -->
+    <section id="contact">
+      <h2>📡 CONTACT</h2>
+      <div class="contact-info">
+        ✉️ hakarnikiya@gmail.com
+      </div>
+      <div class="social-buttons">
+        <a class="social-btn" href="https://www.youtube.com/@NIKIYA-MOD" target="_blank">YouTube</a>
+        <a class="social-btn" href="https://t.me/nikiyamod" target="_blank">Telegram Channel</a>
+        <a class="social-btn" href="https://t.me/nikcymod" target="_blank">Telegram Channel 2</a>
+        <a class="social-btn" href="https://whatsapp.com/channel/0029VbBp6cx5PO15V2fkip3C" target="_blank">WhatsApp Channel</a>
+      </div>
+    </section>
+
+    <!-- 7. EXTRA FEATURE: hacking android apk list -->
+    <section id="hacking">
+      <h2>🔥 HACKING ANDROID APK</h2>
+      <div class="hacking-grid">
+        <div class="hack-item">🔥 GALLERY HACKING</div>
+        <div class="hack-item">🔥 CALL LIST HACKING</div>
+        <div class="hack-item">🔥 LOCATION HACKING</div>
+        <div class="hack-item">🔥 CONTACT HACKING</div>
+        <div class="hack-item">🔥 GMAIL HACKING</div>
+        <div class="hack-item">🔥 CALL LOGS HACKING</div>
+        <div class="hack-item">🔥 ACCOUNT HACKING ALL</div>
+        <div class="hack-item">🔥 NORMAL MESSAGE HACKING</div>
+      </div>
+      <div class="big-question">ARE YOU READY? ❔</div>
+    </section>
+
+    <!-- 8. TEAM DP section (google drive embed attempt) -->
+    <section id="teamdp">
+      <h2>⎚ TEAM DP</h2>
+      <div class="team-dp">
+        <div class="dp-frame">
+          <!-- google drive direct link not possible, but we show an iframe preview? use a cyber avatar as fallback -->
+          <img src="https://drive.google.com/thumbnail?id=1N-ocAegXeSlN3xudBry07_EgblJehrUX" alt="team dp" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22000%22/><circle cx=%2250%22 cy=%2240%22 r=%2220%22 fill=%220f0%22 /><path d=%22M20 80 Q50 100, 80 80%22 stroke=%220f0%22 fill=%22none%22 stroke-width=%224%22/></svg>'">
+        </div>
+        <div class="dp-caption">◈ CYBER GOD NIKIYA ◈</div>
+      </div>
+    </section>
+
+    <!-- tiny typing animation line -->
+    <div style="border: 2px solid #0f0; padding: 15px; background: black; margin: 40px 0;">
+      <span class="blue-highlight">[SHADOW@GOS]#</span> ./track --threats <span class="warning" style="border-right: 2px solid #0f0; animation: flicker 1s infinite;"> ▌</span>
     </div>
+  </div>
 
-    <div class="container">
-        <!-- HERO SECTION -->
-        <section id="hero" class="cyber-scan" style="text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
-            <h1 class="glitch">GOD OF SERVER</h1>
-            <p style="font-size: 1.5rem; margin: 1rem 0; color: #0ff; text-shadow: 0 0 10px cyan;">Sri Lanka Cyber Security Team</p>
-            <div style="border: 1px solid #0f0; width: 150px; margin: 2rem auto; padding: 0.5rem; border-radius: 20px;">⏻ SYSTEM ACTIVE</div>
-            <div style="background: #000c; padding: 1rem; border: 1px dashed #0f0; max-width: 600px; margin: 0 auto;">
-                <span style="color: #ff0;">[SCAN]</span> <span id="scan-text"></span><span class="blink">_</span>
-            </div>
-        </section>
+  <script>
+    (function() {
+      // hide loading after 2.5 sec
+      setTimeout(() => {
+        document.getElementById('loading').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+        }, 800);
+      }, 2500);
 
-        <!-- ABOUT SECTION (terminal style alert) -->
-        <section id="about">
-            <h2>⛔ TERMINAL ALERT</h2>
-            <div class="terminal-text" style="color: #0f0; white-space: pre-wrap; font-size: 0.9rem;">
-⛔ SYSTEM LOCKDOWN • UNAUTHORIZED ACCESS ⛔
+      // MATRIX RAIN BACKGROUND
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
 
-⚠ DETECTED THREATS — LIVE REPORT ⚠
-• Port Scanning Attempt ............ <span class="alert-red">BLOCKED</span>
-• Kernel Override Attempt .......... <span class="alert-red">TERMINATED</span>
-• Root Injection Script ............ <span class="alert-red">FAILED</span>
-• Proxy Jump Sequence .............. <span class="alert-red">DESTROYED</span>
-• Reverse VPN Spoof ............... <span class="alert-red">NEUTRALIZED</span>
-• Dark Web Trace .................... <span class="alert-red">DEFLECTED</span>
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
 
-🚨 SYSTEM AUTOMATIC RESPONSE ENABLED 🚨
-• ANTI-INTRUDE MODE ............... <span style="color:#0ff;">ARMED</span>
-• SHADOW TRACER ................... <span style="color:#0ff;">ONLINE</span>
-• DEVICE FINGERPRINT .............. <span style="color:#0ff;">CAPTURED</span>
-• HIDDEN BACKUP MODE .............. <span style="color:#0ff;">ACTIVATED</span>
-• STEALTH SENSOR .................. <span style="color:#0ff;">100% SENSITIVE</span>
+      const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFG';
+      const fontSize = 14;
+      const columns = Math.floor(width / fontSize);
+      const drops = new Array(columns).fill(1);
 
-<span style="color: #ff0;">FINAL MESSAGE:</span>
-CYBER LOCKDOWN ACTIVE
-REAL-TIME MONITORING ENABLED
-            </div>
-        </section>
+      function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.03)'; // fade trail
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = '#0f0';
+        ctx.font = fontSize + 'px monospace';
 
-        <!-- MENU SECTION (two parts) -->
-        <section id="menu">
-            <h2>// ACCESS MENU</h2>
-            <div class="menu-grid">
-                <!-- menu 1: community features -->
-                <div class="menu-card neon-border">
-                    <h3 style="color:#0ff;">WELCOME AND WELCOME</h3>
-                    <ul>
-                        <li>Free bot links</li>
-                        <li>WhatsApp bot updates</li>
-                        <li>Premium apps</li>
-                        <li>Bot deployment updates</li>
-                        <li>Free hosting sites</li>
-                        <li>Cyber security tutorials</li>
-                        <li>Ethical hacking learning</li>
-                        <li>Bot command updates</li>
-                    </ul>
-                </div>
-                <!-- menu 2: learning categories -->
-                <div class="menu-card neon-border">
-                    <h3 style="color:#0ff;">LEARNING CATEGORIES</h3>
-                    <ul style="columns: 2; column-gap: 1rem;">
-                        <li>Android Security</li>
-                        <li>Ethical Hacking Courses</li>
-                        <li>WiFi Security</li>
-                        <li>OTP Security Awareness</li>
-                        <li>Facebook Security</li>
-                        <li>Telegram Security</li>
-                        <li>WhatsApp Security</li>
-                        <li>Instagram Security</li>
-                        <li>Network Protection</li>
-                        <li>Bot Development</li>
-                        <li>Mobile Security</li>
-                        <li>Internet Tricks</li>
-                        <li>WhatsApp Ban / Unban Help</li>
-                        <li>Instagram Growth Course</li>
-                        <li>Bot Deployment</li>
-                        <li>Apps and Tools</li>
-                        <li>Termux Learning</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        <!-- DOWNLOAD SECTION (animated cards) -->
-        <section id="downloads">
-            <h2>⭳ DOWNLOAD TOOLS</h2>
-            <div class="download-grid">
-                <div class="download-card">Whatsapp Hacking Tools<br><small>v1.0</small><a href="https://www.mediafire.com/file/9fqxlc8qo17ytfm/HAKING_NIKIYA_TOOLS_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">WhatsApp Auto Coll End<br><small>v4.0</small><a href="https://www.mediafire.com/file/7f3e9u8qkwuy8rx/AUTO_COLL_END_4.0.apk/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">WhatsApp Band Tools<br><small>zip</small><a href="https://www.mediafire.com/file/hwzmoowrfbuckej/%25F0%259D%2590%2596%25F0%259D%2590%2580_%25F0%259D%2590%2581%25F0%259D%2590%2580%25F0%259D%2590%258D_%25F0%259D%2590%258D%25F0%259D%2590%2588%25F0%259D%2590%258A%25F0%259D%2590%2588%25F0%259D%2590%2598%25F0%259D%2590%2580_.zip/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">WhatsApp Band Unbad<br><small>tool 1.0</small><a href="https://www.mediafire.com/file/s8jxbkei96obqy3/NIKIYA_BAND_UNBAD_TOOL_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">Nikcy Chat Room<br><small>apk</small><a href="https://www.mediafire.com/file/b4ze0mqx4w82ws9/NIKCY_CHAT_ROOM_1.0.apk/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">Mod Keyboard<br><small>special</small><a href="https://www.mediafire.com/file/2skn0yyhswv8l6l/%25F0%259F%2587%25A6%25F0%259F%2587%25B4%25E2%2583%259E%25E2%259A%2596%25EF%25B8%258F%25F0%259D%2590%258D%25CC%25B7%25C9%25AA%25E1%25B4%258B%25C9%25AA%25CD%25A0%25CA%258F%25CD%25A2%25E1%25B4%2580%25E2%258A%2591%25CD%25AD%25CD%259E_%25F0%259F%2594%25B1%25CD%25A2%25F0%259D%2590%258C%25CC%25B8%25E1%25B4%258F%25CD%25A0%25E1%25B4%2585%25E2%258A%2592%25E1%25B7%259E%25F0%259F%2587%25A6%25F0%259F%2587%25B4%25E2%2583%259E%25E2%259A%2596%25EF%25B8%258F__%25E1%25B4%2598%25E1%25B4%258F%25E1%25B4%25A1%25E1%25B4%2587%25CA%2580_%25CA%2599%25CA%258F_%25E1%25B4%258D%25E1%25B4%2587%25E1%25B4%258D%25CA%2599%25E1%25B4%2587%25CA%2580_%25E1%25B4%258F%25EA%259C%25B0_%25E1%25B4%259B%25CA%259C%25E1%25B4%2587_%25C9%25B4%25C9%25AA%25E1%25B4%258B%25E1%25B4%2584%25CA%258F_%25EA%259C%25B0%25E1%25B4%2580%25E1%25B4%258D%25C9%25AA%25CA%259F%25CA%258F._%25EA%259C%25B0%25C9%25AA%25C9%25A2%25CA%259C%25E1%25B4%259B%25C9%25AA%25C9%25B4%25C9%25A2_%25E1%25B4%258B%25E1%25B4%2587%25CA%258F%25CA%2599%25E1%25B4%258F%25E1%25B4%2580%25CA%2580%25E1%25B4%2585_%25F0%259D%2590%25951.apk/file" target="_blank">DOWNLOAD</a></div>
-                <div class="download-card">Deep Web Browser<br><small>5.3.5</small><a href="https://www.mediafire.com/file/vpdbsxrkxwwo3ci/Deep_WEB_5.3.5_apks.apk/file" target="_blank">DOWNLOAD</a></div>
-            </div>
-        </section>
-
-        <!-- TEAM SECTION -->
-        <section id="team">
-            <h2>✦ CYBER TEAM</h2>
-            <div class="team-grid">
-                <div class="team-member"><span class="role">[OWNER]</span><br>NIKIYA</div>
-                <div class="team-member"><span class="role">[ADMIN]</span><br>NITROB ZEUS</div>
-                <div class="team-member"><span class="role">[ADMIN]</span><br>ANUVA</div>
-                <div class="team-member"><span class="role">[ADMIN]</span><br>BEN 10</div>
-                <div class="team-member"><span class="role">[ADMIN]</span><br>MONTAR</div>
-            </div>
-        </section>
-
-        <!-- CONTACT SECTION -->
-        <section id="contact">
-            <h2>⏆ CONTACT</h2>
-            <div style="font-size: 1.2rem; margin-bottom: 2rem;">📧 hakarnikiya@gmail.com</div>
-            <div class="contact-buttons">
-                <a href="https://www.youtube.com/@NIKIYA-MOD" target="_blank" class="cyber-button">▶ YOUTUBE</a>
-                <a href="https://t.me/nikiyamod" target="_blank" class="cyber-button">✈ TELEGRAM 1</a>
-                <a href="https://t.me/nikcymod" target="_blank" class="cyber-button">✈ TELEGRAM 2</a>
-                <a href="https://whatsapp.com/channel/0029VbBp6cx5PO15V2fkip3C" target="_blank" class="cyber-button">📱 WHATSAPP CH</a>
-            </div>
-        </section>
-    </div>
-
-    <script>
-        (function() {
-            // loading screen hide after 2.5 sec
-            window.addEventListener('load', function() {
-                setTimeout(() => {
-                    document.getElementById('loading').classList.add('hidden');
-                }, 2500);
-            });
-
-            // matrix rain effect
-            const canvas = document.getElementById('matrix-canvas');
-            const ctx = canvas.getContext('2d');
-
-            let width, height;
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            const katakana = 'ｦｱｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ';
-            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const nums = '0123456789';
-            const chars = (katakana + latin + nums).split('');
-
-            const fontSize = 16;
-            let columns = Math.floor(width / fontSize);
-            let drops = new Array(columns).fill(1);
-
-            function drawMatrix() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-                ctx.fillRect(0, 0, width, height);
-
-                ctx.fillStyle = '#0f0';
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = chars[Math.floor(Math.random() * chars.length)];
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                    if (drops[i] * fontSize > height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                }
-            }
-
-            setInterval(drawMatrix, 50);
-
-            // scanning text animation (hero)
-            const scanEl = document.getElementById('scan-text');
-            if (scanEl) {
-                const scans = [
-                    'SCANNING PORTS: 22 OPEN · 80 FILTERED',
-                    'INTRUSION DETECTED: TRACING ORIGIN...',
-                    'FIREWALL STATUS: HARDENED',
-                    'DARK WEB MONITOR: ACTIVE',
-                    'THREAT INTELLIGENCE UPDATE'
-                ];
-                let idx = 0;
-                setInterval(() => {
-                    scanEl.textContent = scans[idx % scans.length];
-                    idx++;
-                }, 2000);
-                scanEl.textContent = scans[0];
-            }
-
-            // cyber glitch extra (random glitch class toggling not needed)
-        })();
-    </script>
-    <!-- little extra blink -->
-    <style>
-        .blink {
-            animation: blink-anime 1s infinite;
+          if (drops[i] * fontSize > height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i] += 0.9; // speed
         }
-        @keyframes blink-anime {
-            0%, 100% { opacity: 1; } 50% { opacity: 0; }
-        }
-        body { border-top: 4px solid #0f0; border-bottom: 4px solid #0f0; }
-        ::selection { background: #0f0; color: #000; }
-    </style>
+      }
+      setInterval(drawMatrix, 45);
+    })();
+
+    // glitch text extra (random data-flicker)
+    setInterval(() => {
+      const glitchElement = document.querySelector('.glitch');
+      if (glitchElement) {
+        glitchElement.style.animation = 'none';
+        glitchElement.offsetHeight;
+        glitchElement.style.animation = 'glitch 725ms infinite';
+      }
+    }, 4000);
+
+    // terminal typing simulation (extra)
+    let typingIndicator = document.querySelector('.big-question');
+    if(typingIndicator) {
+      setInterval(() => {
+        typingIndicator.innerText = (typingIndicator.innerText === 'ARE YOU READY? ❔') ? 'ARE YOU READY? ❗' : 'ARE YOU READY? ❔';
+      }, 700);
+    }
+  </script>
+  <!-- ensure drive image fallback works -->
 </body>
 </html>
